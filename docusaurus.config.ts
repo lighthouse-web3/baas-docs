@@ -67,7 +67,7 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Backup Data',
+      title: 'BackupData.io',
       logo: {
         alt: 'BackupData.io',
         src: 'img/favicon.svg',
