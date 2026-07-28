@@ -1,0 +1,91 @@
+/**
+ * BackupData.io documentation theme.
+ * Palette mirrors the marketing/app frontend (baas-ui/app/globals.css).
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  --ifm-color-primary: #643fbb;
+  --ifm-color-primary-dark: #5a39a8;
+  --ifm-color-primary-darker: #55369f;
+  --ifm-color-primary-darkest: #470084;
+  --ifm-color-primary-light: #7452c5;
+  --ifm-color-primary-lighter: #7d5cc9;
+  --ifm-color-primary-lightest: #9679d4;
+
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --ifm-heading-font-family: 'Space Grotesk', 'Inter', sans-serif;
+  --ifm-code-font-size: 92%;
+  --ifm-code-font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --docusaurus-highlighted-code-line-bg: rgba(100, 63, 187, 0.12);
+}
+
+/* Dark mode is the default look for BackupData.io. */
+[data-theme='dark'] {
+  --ifm-color-primary: #dab9ff;
+  --ifm-color-primary-dark: #c79aff;
+  --ifm-color-primary-darker: #b170ff;
+  --ifm-color-primary-darkest: #a286f8;
+  --ifm-color-primary-light: #e3caff;
+  --ifm-color-primary-lighter: #ebdaff;
+  --ifm-color-primary-lightest: #f3e9ff;
+
+  --ifm-background-color: #131314;
+  --ifm-background-surface-color: #1b1c1c;
+  --ifm-navbar-background-color: #131314;
+  --ifm-footer-background-color: #1b1c1c;
+
+  --ifm-font-color-base: #e4e2e2;
+  --ifm-heading-color: #ffffff;
+  --ifm-toc-border-color: rgba(255, 255, 255, 0.08);
+
+  --docusaurus-highlighted-code-line-bg: rgba(218, 185, 255, 0.14);
+}
+
+[data-theme='dark'] .menu,
+[data-theme='dark'] .navbar {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='dark'] .navbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Wordmark matches the marketing header in baas-ui/container/Header/Header.jsx. */
+.navbar__logo img {
+  height: 26px;
+  width: auto;
+  border-radius: 7px;
+}
+
+.navbar__brand .navbar__title {
+  font-family: var(--ifm-heading-font-family);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: var(--ifm-color-primary-darkest);
+}
+
+[data-theme='dark'] .navbar__brand .navbar__title {
+  color: #dab9ff;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  font-family: var(--ifm-heading-font-family);
+  letter-spacing: -0.02em;
+}
+
+.markdown img {
+  border-radius: 10px;
+  border: 1px solid rgba(127, 127, 127, 0.25);
+  max-width: 100%;
+}
+
+.markdown table {
+  display: table;
+  width: 100%;
+}

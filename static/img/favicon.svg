@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Backup Data">
+  <defs>
+    <linearGradient id="bd-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dab9ff"/>
+      <stop offset="100%" stop-color="#b170ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#bd-bg)"/>
+  <!-- Stacked snapshot layers: the product's core idea. -->
+  <g fill="none" stroke="#470084" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 20 L32 12 L50 20 L32 28 Z"/>
+    <path d="M14 32 L32 40 L50 32"/>
+    <path d="M14 43 L32 51 L50 43"/>
+  </g>
+</svg>
