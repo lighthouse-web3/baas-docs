@@ -82,11 +82,6 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: 'https://app.backupdata.io',
-          label: 'Web Portal',
-          position: 'right',
-        },
-        {
           href: 'https://backupdata.io',
           label: 'backupdata.io',
           position: 'right',
@@ -108,9 +103,8 @@ const config: Config = {
         {
           title: 'Product',
           items: [
-            { label: 'Web Portal', href: 'https://app.backupdata.io' },
             { label: 'Pricing', href: 'https://backupdata.io/#pricing' },
-            { label: 'Blog', href: 'https://backupdata.io/blog' },
+            { label: 'Resources', href: 'https://www.backupdata.io/resources' },
           ],
         },
         {

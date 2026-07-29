@@ -23,7 +23,7 @@ This quick start uses PostgreSQL as the example. Every other database follows th
 
 ### 1. Sign in and get your free workspace
 
-Open **[app.backupdata.io](https://app.backupdata.io)** and sign in with email + password, Google, or a wallet (SIWE). All three produce the same account.
+Open **[backupdata.io](https://backupdata.io)** and sign in with email + password, Google, or a wallet (SIWE). All three produce the same account.
 
 Your **free workspace is provisioned automatically** — no setup, no payment. Open **Workspaces** in the sidebar and copy the **Workspace ID**, a UUID like `550e8400-e29b-41d4-a716-446655440000`. You will need it in step 3.
 
@@ -105,7 +105,7 @@ export BD_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
 </Tabs>
 
 :::note Two different hosts
-The portal you clicked around in is `app.backupdata.io`. The API is `api.backupdata.io` — that is the value the Go SDK needs for `APIURL`. The CLI and JS SDK target it internally.
+The portal you clicked around in is `backupdata.io`. The API is `api.backupdata.io` — that is the value the Go SDK needs for `APIURL`. The CLI and JS SDK target it internally.
 :::
 
 ---

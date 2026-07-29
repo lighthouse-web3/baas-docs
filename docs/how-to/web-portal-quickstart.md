@@ -4,10 +4,10 @@ sidebar_position: 2
 
 # Web Portal & Free Workspace
 
-The **portal** at [`app.backupdata.io`](https://app.backupdata.io) is where humans work: you log in, get your **free 5 GB workspace**, mint a scoped **API key**, and browse the snapshots your backups produce. The **SDK** then uses that API key to do the heavy lifting from your servers or CI.
+The **portal** at [`backupdata.io`](https://backupdata.io) is where humans work: you log in, get your **free 5 GB workspace**, mint a scoped **API key**, and browse the snapshots your backups produce. The **SDK** then uses that API key to do the heavy lifting from your servers or CI.
 
 :::tip Two hosts, two jobs
-The **portal** lives at `app.backupdata.io` (the website you click around in). The **Go SDK** talks to `api.backupdata.io`. When you create the client, point `APIURL` at the **API host**.
+The **portal** lives at `backupdata.io` (the website you click around in). The **Go SDK** talks to `api.backupdata.io`. When you create the client, point `APIURL` at the **API host**.
 :::
 
 :::info Free tier
@@ -16,7 +16,7 @@ Every new user automatically gets a **free workspace with 5 GB of storage** on s
 
 ## 1. Log in
 
-1. Open [`https://app.backupdata.io`](https://app.backupdata.io).
+1. Open [`https://backupdata.io`](https://backupdata.io).
 2. Click **Log in / Connect**. The auth modal offers two ways to sign in:
    - **Email + password** — switch the modal to **Sign up** the first time to create an account (display name, email, password). You then receive a verification email; click the link to verify, then log in normally.
    - **Google** — click **Login with Google** and complete the standard Google consent screen (OAuth + PKCE). You are redirected back signed in.

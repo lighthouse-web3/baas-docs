@@ -30,7 +30,7 @@ Backup Data has three surfaces that work together:
 
 | Surface | Host | Who uses it | What for |
 |---------|------|-------------|----------|
-| **Web portal** | `app.backupdata.io` | Humans | Log in, manage workspaces & members, mint API keys, browse snapshots |
+| **Web portal** | `backupdata.io` | Humans | Log in, manage workspaces & members, mint API keys, browse snapshots |
 | **SDK (Go / JS)** | `api.backupdata.io` | Your servers / CI | Integrate backups, restores, and snapshot lifecycle into code |
 | **CLI (`baas`)** | `api.backupdata.io` | Operators, scripts, CI | Run backups, restores, and snapshot lifecycle from the terminal |
 

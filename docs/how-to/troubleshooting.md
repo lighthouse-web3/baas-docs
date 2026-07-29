@@ -95,7 +95,7 @@ The target's `.lighthouse/source_id` file was deleted or changed, so the dedup/s
 
 ### Connection / DNS errors
 
-Check that `APIURL` is the **API host** `https://api.backupdata.io` — not the portal host `app.backupdata.io`.
+Check that `APIURL` is the **API host** `https://api.backupdata.io` — not the portal host `backupdata.io`.
 
 ## SQLite-specific
 
