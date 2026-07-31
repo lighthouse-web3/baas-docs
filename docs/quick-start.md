@@ -55,7 +55,7 @@ Copy the raw `lh_…` key (or click **Download .txt**) before closing the dialog
 <TabItem value="cli" label="CLI" default>
 
 ```bash
-npm install -g @lighthouse-web3/baas-js-sdk
+npm install -g @backupdata/js-sdk
 ```
 
 Log in with the key from step 2 and select your workspace:
@@ -93,7 +93,7 @@ export BD_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
 Requires **Node.js 18+**:
 
 ```bash
-npm install @lighthouse-web3/baas-js-sdk
+npm install @backupdata/js-sdk
 ```
 
 ```bash
@@ -190,7 +190,7 @@ go run .
 <TabItem value="js" label="JS SDK">
 
 ```javascript
-import { BackupClient } from "@lighthouse-web3/baas-js-sdk";
+import { BackupClient } from "@backupdata/js-sdk";
 
 const client = new BackupClient({
   apiKey: process.env.BD_API_KEY,

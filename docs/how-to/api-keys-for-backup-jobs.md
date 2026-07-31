@@ -33,7 +33,7 @@ import {
   ScopeBackupWrite,
   ScopeBackupRead,
   ScopeSnapshotsRead,
-} from "@lighthouse-web3/baas-js-sdk";
+} from "@backupdata/js-sdk";
 ```
 
 </TabItem>
@@ -42,7 +42,7 @@ import {
 Install the CLI, then authenticate with a portal-created key or another supported login method:
 
 ```bash
-npm install -g @lighthouse-web3/baas-js-sdk
+npm install -g @backupdata/js-sdk
 baas auth login --api-key
 ```
 

@@ -39,7 +39,7 @@ This guide turns the one-off dump and upload flow from the per-database tutorial
 
   Node.js **18+**:
   ```bash
-  npm install @lighthouse-web3/baas-js-sdk
+  npm install @backupdata/js-sdk
   ```
 
   </TabItem>
@@ -47,7 +47,7 @@ This guide turns the one-off dump and upload flow from the per-database tutorial
 
   Node.js **18+**:
   ```bash
-  npm install -g @lighthouse-web3/baas-js-sdk
+  npm install -g @backupdata/js-sdk
   baas --help
   ```
 
@@ -196,7 +196,7 @@ If you installed Go from the official tarball into `/usr/local/go`, non-interact
 Create `bd-backup/index.mjs`:
 
 ```javascript
-import { BackupClient, pruneCount } from "@lighthouse-web3/baas-js-sdk";
+import { BackupClient, pruneCount } from "@backupdata/js-sdk";
 
 function mustEnv(k) {
   const v = process.env[k];
@@ -274,7 +274,7 @@ There is **no build step** — run it directly with Node. Install the SDK once i
 
 ```bash
 cd bd-backup
-npm init -y && npm install @lighthouse-web3/baas-js-sdk
+npm init -y && npm install @backupdata/js-sdk
 cd ..
 ```
 

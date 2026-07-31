@@ -25,14 +25,14 @@ import (
 <TabItem value="js" label="JS SDK">
 
 ```javascript
-import { BackupClient } from "@lighthouse-web3/baas-js-sdk";
+import { BackupClient } from "@backupdata/js-sdk";
 ```
 
 </TabItem>
 <TabItem value="cli" label="CLI">
 
 ```bash
-npm install -g @lighthouse-web3/baas-js-sdk
+npm install -g @backupdata/js-sdk
 baas --help
 ```
 
@@ -92,7 +92,7 @@ func newClient() *sdkclient.BackupClient {
 <TabItem value="js" label="JS SDK">
 
 ```javascript
-import { BackupClient } from "@lighthouse-web3/baas-js-sdk";
+import { BackupClient } from "@backupdata/js-sdk";
 
 function newClient() {
   return new BackupClient({

@@ -28,14 +28,14 @@ go get github.com/Backup-Data-io/go-sdk@latest
 <TabItem value="js" label="JS SDK">
 
 ```bash
-npm install @lighthouse-web3/baas-js-sdk
+npm install @backupdata/js-sdk
 ```
 
 </TabItem>
 <TabItem value="cli" label="CLI">
 
 ```bash
-npm install -g @lighthouse-web3/baas-js-sdk
+npm install -g @backupdata/js-sdk
 baas --help
 ```
 
@@ -58,7 +58,7 @@ import (
 <TabItem value="js" label="JS SDK">
 
 ```javascript
-import { BackupClient } from "@lighthouse-web3/baas-js-sdk";
+import { BackupClient } from "@backupdata/js-sdk";
 ```
 
 </TabItem>

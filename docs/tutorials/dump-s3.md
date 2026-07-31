@@ -127,7 +127,7 @@ go run .
 <TabItem value="js" label="JS SDK">
 
 ```javascript
-import { BackupClient } from "@lighthouse-web3/baas-js-sdk";
+import { BackupClient } from "@backupdata/js-sdk";
 
 const client = new BackupClient({
   apiKey: process.env.BD_API_KEY,

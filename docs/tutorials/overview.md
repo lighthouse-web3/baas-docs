@@ -63,14 +63,14 @@ You'll need (once):
    <TabItem value="js" label="JS SDK">
 
    ```bash
-   npm install @lighthouse-web3/baas-js-sdk
+   npm install @backupdata/js-sdk
    ```
 
    </TabItem>
    <TabItem value="cli" label="CLI">
 
    ```bash
-   npm install -g @lighthouse-web3/baas-js-sdk
+   npm install -g @backupdata/js-sdk
    baas --help
    ```
 

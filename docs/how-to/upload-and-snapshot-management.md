@@ -23,14 +23,14 @@ import (
 <TabItem value="js" label="JS SDK">
 
 ```javascript
-import { BackupClient, pruneCount, generateKeyfile } from "@lighthouse-web3/baas-js-sdk";
+import { BackupClient, pruneCount, generateKeyfile } from "@backupdata/js-sdk";
 ```
 
 </TabItem>
 <TabItem value="cli" label="CLI">
 
 ```bash
-npm install -g @lighthouse-web3/baas-js-sdk
+npm install -g @backupdata/js-sdk
 baas auth login --api-key
 baas workspace use <workspaceId>
 ```
@@ -475,7 +475,7 @@ err = client.Restore("snapshot-id", target, &sdktypes.RestoreOptions{
 <TabItem value="js" label="JS SDK">
 
 ```javascript
-import { generateKeyfile } from "@lighthouse-web3/baas-js-sdk";
+import { generateKeyfile } from "@backupdata/js-sdk";
 
 // Create a keyfile once.
 generateKeyfile("/secure/bd.keyfile", process.env.BD_KEYFILE_PASSPHRASE);

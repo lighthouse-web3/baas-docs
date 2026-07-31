@@ -32,7 +32,7 @@ import {
   RoleMember,
   RoleAdmin,
   ScopeSnapshotsRead,
-} from "@lighthouse-web3/baas-js-sdk";
+} from "@backupdata/js-sdk";
 ```
 
 </TabItem>
@@ -41,7 +41,7 @@ import {
 Install and authenticate once; the CLI stores the selected workspace in its active profile:
 
 ```bash
-npm install -g @lighthouse-web3/baas-js-sdk
+npm install -g @backupdata/js-sdk
 baas auth login --api-key
 ```
 
