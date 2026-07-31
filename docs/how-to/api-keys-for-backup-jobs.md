@@ -18,8 +18,8 @@ Generating a key in the [portal](/how-to/web-portal-quickstart#3-generate-a-scop
 
 ```go
 import (
-    sdkclient "github.com/lighthouse-web3/baas-go-sdk/client"
-    sdktypes  "github.com/lighthouse-web3/baas-go-sdk/types"
+    sdkclient "github.com/Backup-Data-io/go-sdk/client"
+    sdktypes  "github.com/Backup-Data-io/go-sdk/types"
 )
 ```
 

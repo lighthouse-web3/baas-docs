@@ -79,7 +79,7 @@ export BAAS_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
 Requires **Go 1.24+**:
 
 ```bash
-go get github.com/lighthouse-web3/baas-go-sdk@latest
+go get github.com/Backup-Data-io/go-sdk@latest
 ```
 
 ```bash
@@ -154,8 +154,8 @@ import (
 	"log"
 	"os"
 
-	sdkclient "github.com/lighthouse-web3/baas-go-sdk/client"
-	sdktypes "github.com/lighthouse-web3/baas-go-sdk/types"
+	sdkclient "github.com/Backup-Data-io/go-sdk/client"
+	sdktypes "github.com/Backup-Data-io/go-sdk/types"
 )
 
 func main() {

@@ -14,8 +14,8 @@ Once you have a dump on disk, `Backup()` (Go), `backup()` (JS), or `baas backup`
 
 ```go
 import (
-    sdkclient "github.com/lighthouse-web3/baas-go-sdk/client"
-    sdktypes  "github.com/lighthouse-web3/baas-go-sdk/types"
+    sdkclient "github.com/Backup-Data-io/go-sdk/client"
+    sdktypes  "github.com/Backup-Data-io/go-sdk/types"
 )
 ```
 
@@ -446,7 +446,7 @@ With encryption enabled, data is encrypted **on your machine** (AES-GCM) before 
 <TabItem value="go" label="Go SDK" default>
 
 ```go
-import "github.com/lighthouse-web3/baas-go-sdk/encrypt"
+import "github.com/Backup-Data-io/go-sdk/encrypt"
 
 // Create a keyfile once.
 _, err := encrypt.GenerateKeyfile("/secure/bd.keyfile", os.Getenv("BD_KEYFILE_PASSPHRASE"), nil)

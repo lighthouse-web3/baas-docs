@@ -56,7 +56,7 @@ You'll need (once):
    <TabItem value="go" label="Go SDK" default>
 
    ```bash
-   go get github.com/lighthouse-web3/baas-go-sdk@latest
+   go get github.com/Backup-Data-io/go-sdk@latest
    ```
 
    </TabItem>

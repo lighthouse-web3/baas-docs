@@ -31,7 +31,7 @@ This guide turns the one-off dump and upload flow from the per-database tutorial
 
   Go **1.24+**:
   ```bash
-  go get github.com/lighthouse-web3/baas-go-sdk@latest
+  go get github.com/Backup-Data-io/go-sdk@latest
   ```
 
   </TabItem>
@@ -88,8 +88,8 @@ import (
 	"strings"
 	"time"
 
-	sdkclient "github.com/lighthouse-web3/baas-go-sdk/client"
-	sdktypes "github.com/lighthouse-web3/baas-go-sdk/types"
+	sdkclient "github.com/Backup-Data-io/go-sdk/client"
+	sdktypes "github.com/Backup-Data-io/go-sdk/types"
 )
 
 func main() {

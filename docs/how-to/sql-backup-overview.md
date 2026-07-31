@@ -21,7 +21,7 @@ This guide set covers an end-to-end flow for backing up databases with BackupDat
 <TabItem value="go" label="Go SDK" default>
 
 ```bash
-go get github.com/lighthouse-web3/baas-go-sdk@latest
+go get github.com/Backup-Data-io/go-sdk@latest
 ```
 
 </TabItem>
@@ -49,8 +49,8 @@ Imports used throughout these guides:
 
 ```go
 import (
-    sdkclient "github.com/lighthouse-web3/baas-go-sdk/client"
-    sdktypes  "github.com/lighthouse-web3/baas-go-sdk/types"
+    sdkclient "github.com/Backup-Data-io/go-sdk/client"
+    sdktypes  "github.com/Backup-Data-io/go-sdk/types"
 )
 ```
 

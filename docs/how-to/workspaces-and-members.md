@@ -18,8 +18,8 @@ All snippets assume the imports and an authenticated `client`:
 
 ```go
 import (
-    sdkclient "github.com/lighthouse-web3/baas-go-sdk/client"
-    sdktypes  "github.com/lighthouse-web3/baas-go-sdk/types"
+    sdkclient "github.com/Backup-Data-io/go-sdk/client"
+    sdktypes  "github.com/Backup-Data-io/go-sdk/types"
 )
 ```
 

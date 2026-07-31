@@ -96,8 +96,8 @@ import (
 	"log"
 	"os"
 
-	sdkclient "github.com/lighthouse-web3/baas-go-sdk/client"
-	sdktypes "github.com/lighthouse-web3/baas-go-sdk/types"
+	sdkclient "github.com/Backup-Data-io/go-sdk/client"
+	sdktypes "github.com/Backup-Data-io/go-sdk/types"
 )
 
 func main() {

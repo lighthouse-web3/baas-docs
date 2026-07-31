@@ -16,8 +16,8 @@ All snippets use these imports:
 
 ```go
 import (
-    sdkclient "github.com/lighthouse-web3/baas-go-sdk/client"
-    sdktypes  "github.com/lighthouse-web3/baas-go-sdk/types"
+    sdkclient "github.com/Backup-Data-io/go-sdk/client"
+    sdktypes  "github.com/Backup-Data-io/go-sdk/types"
 )
 ```
 
@@ -72,7 +72,7 @@ import (
     "log"
     "os"
 
-    sdkclient "github.com/lighthouse-web3/baas-go-sdk/client"
+    sdkclient "github.com/Backup-Data-io/go-sdk/client"
 )
 
 func newClient() *sdkclient.BackupClient {
