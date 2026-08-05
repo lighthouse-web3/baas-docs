@@ -42,6 +42,14 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
+        // Google Analytics. The plugin injects gtag.js and also fires a
+        // pageview on client-side route changes, which the raw snippet does
+        // not — this is a SPA, so most navigations never reload the page.
+        // Only active in production builds; `docusaurus start` skips it.
+        gtag: {
+          trackingID: 'G-QRZM268K0D',
+          anonymizeIP: true,
+        },
       } satisfies Preset.Options,
     ],
   ],
