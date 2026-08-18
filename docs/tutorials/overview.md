@@ -80,13 +80,13 @@ You'll need (once):
 Export your credentials so every tutorial can reuse them:
 
 ```bash
-export BD_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
-export BD_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
+export BACKUPDATA_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
+export BACKUPDATA_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
 ```
 
 For the CLI, use the same values with its environment variable names:
 
 ```bash
-export BAAS_API_KEY="$BD_API_KEY"
-export BAAS_WORKSPACE_ID="$BD_WORKSPACE_ID"
+export BACKUPDATA_API_KEY="$BACKUPDATA_API_KEY"
+export BACKUPDATA_WORKSPACE_ID="$BACKUPDATA_WORKSPACE_ID"
 ```

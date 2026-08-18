@@ -59,8 +59,8 @@ This guide turns the one-off dump and upload flow from the per-database tutorial
 Export your credentials (the job reads these from the environment):
 
 ```bash
-export BD_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
-export BD_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
+export BACKUPDATA_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
+export BACKUPDATA_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
 ```
 
 ## 1. The reusable uploader
@@ -68,9 +68,9 @@ export BD_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
 This program uploads the `./db-dumps` directory and prunes old snapshots. It is **database-agnostic** — you never edit it; it just uploads whatever the dump script produced.
 
 :::warning Retention deletes snapshots on every run
-Unlike the [interactive prune workflow](/how-to/upload-and-snapshot-management#prune-snapshots-retention), which recommends a dry run first, this uploader prunes for real (`DryRun: false`) each time it runs — a scheduled job has nobody to review a preview. It keeps the newest `BD_KEEP_LATEST` snapshots (**default 14**) and permanently deletes the rest.
+Unlike the [interactive prune workflow](/how-to/upload-and-snapshot-management#prune-snapshots-retention), which recommends a dry run first, this uploader prunes for real (`DryRun: false`) each time it runs — a scheduled job has nobody to review a preview. It keeps the newest `BACKUPDATA_KEEP_LATEST` snapshots (**default 14**) and permanently deletes the rest.
 
-Set `BD_KEEP_LATEST` deliberately for your retention policy, or set it to `0` to disable pruning. Before the first scheduled run, confirm the effect with a dry run against your workspace.
+Set `BACKUPDATA_KEEP_LATEST` deliberately for your retention policy, or set it to `0` to disable pruning. Before the first scheduled run, confirm the effect with a dry run against your workspace.
 :::
 
 <Tabs groupId="baas-sdk">
@@ -93,11 +93,11 @@ import (
 )
 
 func main() {
-	apiKey := mustEnv("BD_API_KEY")
-	workspaceID := mustEnv("BD_WORKSPACE_ID")
+	apiKey := mustEnv("BACKUPDATA_API_KEY")
+	workspaceID := mustEnv("BACKUPDATA_WORKSPACE_ID")
 
-	dumpDir := envOr("BD_DUMP_DIR", "./db-dumps")
-	description := envOr("BD_DESCRIPTION", "scheduled db backup "+time.Now().UTC().Format(time.RFC3339))
+	dumpDir := envOr("BACKUPDATA_DUMP_DIR", "./db-dumps")
+	description := envOr("BACKUPDATA_DESCRIPTION", "scheduled db backup "+time.Now().UTC().Format(time.RFC3339))
 
 	client, err := sdkclient.NewBackupClient(sdkclient.BackupClientOptions{
 		APIURL:      "https://api.backupdata.io",
@@ -111,7 +111,7 @@ func main() {
 	// Upload the dump directory as a new snapshot.
 	snap, err := client.Backup([]string{dumpDir}, &sdktypes.BackupOptions{
 		Description: description,
-		Tags:        parseTags(os.Getenv("BD_TAGS")), // e.g. "env=prod,db=app_db"
+		Tags:        parseTags(os.Getenv("BACKUPDATA_TAGS")), // e.g. "env=prod,db=app_db"
 		OnProgress: func(e sdktypes.ProgressEvent) {
 			log.Printf("[%s] %d/%d stored=%dB", e.Phase, e.Current, e.Total, e.StoredBytes)
 		},
@@ -122,8 +122,8 @@ func main() {
 	log.Printf("✅ snapshot %s — %d chunks, %d bytes", snap.SnapshotID, snap.TotalChunks, snap.TotalSize)
 
 	// Retention: keep the latest N snapshots and DELETE the rest.
-	// Defaults to 14. Set BD_KEEP_LATEST=0 to disable pruning entirely.
-	if keep := envInt("BD_KEEP_LATEST", 14); keep > 0 {
+	// Defaults to 14. Set BACKUPDATA_KEEP_LATEST=0 to disable pruning entirely.
+	if keep := envInt("BACKUPDATA_KEEP_LATEST", 14); keep > 0 {
 		res, err := client.PruneSnapshots(sdktypes.PruneRequest{
 			KeepLatest: &keep,
 			DryRun:     false,
@@ -184,7 +184,7 @@ go build -o ../bin/bd-backup .
 cd ..
 ```
 
-You now have `./bin/bd-backup`. It needs only `BD_API_KEY` and `BD_WORKSPACE_ID` (plus optional `BD_DUMP_DIR`, `BD_TAGS`, `BD_DESCRIPTION`, `BD_KEEP_LATEST`).
+You now have `./bin/bd-backup`. It needs only `BACKUPDATA_API_KEY` and `BACKUPDATA_WORKSPACE_ID` (plus optional `BACKUPDATA_DUMP_DIR`, `BACKUPDATA_TAGS`, `BACKUPDATA_DESCRIPTION`, `BACKUPDATA_KEEP_LATEST`).
 
 :::tip `command 'go' not found`?
 If you installed Go from the official tarball into `/usr/local/go`, non-interactive shells (and CI) won't have it on `PATH`. Call the toolchain by absolute path: `/usr/local/go/bin/go build -o ../bin/bd-backup .`. **Building once into a static binary is the point** — the scheduler then runs `bin/bd-backup` directly and never needs Go installed at runtime. See [Troubleshooting](/how-to/troubleshooting#command-go-not-found-in-cron--systemd--ci).
@@ -233,12 +233,12 @@ function parseTags(s) {
   return tags;
 }
 
-const apiKey = mustEnv("BD_API_KEY");
-const workspaceId = mustEnv("BD_WORKSPACE_ID");
+const apiKey = mustEnv("BACKUPDATA_API_KEY");
+const workspaceId = mustEnv("BACKUPDATA_WORKSPACE_ID");
 
-const dumpDir = envOr("BD_DUMP_DIR", "./db-dumps");
+const dumpDir = envOr("BACKUPDATA_DUMP_DIR", "./db-dumps");
 const description = envOr(
-  "BD_DESCRIPTION",
+  "BACKUPDATA_DESCRIPTION",
   `scheduled db backup ${new Date().toISOString()}`,
 );
 
@@ -247,7 +247,7 @@ const client = new BackupClient({ apiKey, workspaceId });
 // Upload the dump directory as a new snapshot.
 const snap = await client.backup([dumpDir], {
   description,
-  tags: parseTags(process.env.BD_TAGS), // e.g. "env=prod,db=app_db"
+  tags: parseTags(process.env.BACKUPDATA_TAGS), // e.g. "env=prod,db=app_db"
   onProgress: (e) => {
     console.log(`[${e.phase}] ${e.current}/${e.total} stored=${e.storedBytes}B`);
   },
@@ -257,8 +257,8 @@ console.log(
 );
 
 // Retention: keep the latest N snapshots and DELETE the rest.
-// Defaults to 14. Set BD_KEEP_LATEST=0 to disable pruning entirely.
-const keep = envInt("BD_KEEP_LATEST", 14);
+// Defaults to 14. Set BACKUPDATA_KEEP_LATEST=0 to disable pruning entirely.
+const keep = envInt("BACKUPDATA_KEEP_LATEST", 14);
 if (keep > 0) {
   try {
     const res = await client.pruneSnapshots({ keepLatest: keep, dryRun: false });
@@ -278,7 +278,7 @@ npm init -y && npm install @backupdata/js-sdk
 cd ..
 ```
 
-You now run the uploader with `node bd-backup/index.mjs`. It needs only `BD_API_KEY` and `BD_WORKSPACE_ID` (plus optional `BD_DUMP_DIR`, `BD_TAGS`, `BD_DESCRIPTION`, `BD_KEEP_LATEST`).
+You now run the uploader with `node bd-backup/index.mjs`. It needs only `BACKUPDATA_API_KEY` and `BACKUPDATA_WORKSPACE_ID` (plus optional `BACKUPDATA_DUMP_DIR`, `BACKUPDATA_TAGS`, `BACKUPDATA_DESCRIPTION`, `BACKUPDATA_KEEP_LATEST`).
 
 :::tip `command 'node' not found` in cron/systemd?
 Non-interactive shells (and CI) may not have `node` on `PATH`. Invoke it by absolute path — find yours with `which node` (e.g. `/usr/bin/node bd-backup/index.mjs`), and reference that absolute path in `backup.sh` below.
@@ -287,21 +287,23 @@ Non-interactive shells (and CI) may not have `node` on `PATH`. Invoke it by abso
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-The CLI is the uploader—no program needs to be created or built. Configure its credentials for the scheduled job, then back up the dump directory and apply retention:
+The CLI is the uploader—no program needs to be created or built. Configure its credentials for the scheduled job, then back up the dump directory:
 
 ```bash
-export BAAS_API_KEY="$BD_API_KEY"
-export BAAS_WORKSPACE_ID="$BD_WORKSPACE_ID"
+export BACKUPDATA_API_KEY="$BACKUPDATA_API_KEY"
+export BACKUPDATA_WORKSPACE_ID="$BACKUPDATA_WORKSPACE_ID"
 
-baas backup "${BD_DUMP_DIR:-./db-dumps}" \
-  --description "${BD_DESCRIPTION:-scheduled db backup}" \
+baas backup "${BACKUPDATA_DUMP_DIR:-./db-dumps}" \
+  --description "${BACKUPDATA_DESCRIPTION:-scheduled db backup}" \
   --tag env=prod \
   --tag db=app_db
-
-baas snapshot prune --keep-latest "${BD_KEEP_LATEST:-14}" --yes
 ```
 
-For cron, set `BAAS_API_KEY` and `BAAS_WORKSPACE_ID` in the job environment (or use a CLI profile), then call the same two commands after `make_dump()`. Repeat `--tag key=value` for each tag your job needs. Add `--quiet --json` when the scheduler needs machine-readable output.
+:::info Prune is SDK only (v0.1.5)
+The CLI has no `prune` command. For retention, run the Go/JS uploader’s `client.pruneSnapshots({keepLatest: "${BACKUPDATA_KEEP_LATEST:-14}"})` (or `PruneSnapshots`) after the backup, or prune from the Portal.
+:::
+
+For cron, set `BACKUPDATA_API_KEY` and `BACKUPDATA_WORKSPACE_ID` in the job environment, then call `baas backup` after `make_dump()`. Repeat `--tag key=value` for each tag your job needs.
 
 </TabItem>
 </Tabs>
@@ -318,22 +320,22 @@ set -euo pipefail
 
 # ── Paths ─────────────────────────────────────────────
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export BD_DUMP_DIR="${ROOT}/db-dumps"
+export BACKUPDATA_DUMP_DIR="${ROOT}/db-dumps"
 UPLOADER="${ROOT}/bin/bd-backup"
-mkdir -p "$BD_DUMP_DIR"
+mkdir -p "$BACKUPDATA_DUMP_DIR"
 
 # ── Credentials & policy (or set these in the environment) ─
-: "${BD_API_KEY:?set BD_API_KEY}"
-: "${BD_WORKSPACE_ID:?set BD_WORKSPACE_ID}"
-export BD_TAGS="${BD_TAGS:-env=prod,db=app_db}"
-export BD_KEEP_LATEST="${BD_KEEP_LATEST:-14}"
+: "${BACKUPDATA_API_KEY:?set BACKUPDATA_API_KEY}"
+: "${BACKUPDATA_WORKSPACE_ID:?set BACKUPDATA_WORKSPACE_ID}"
+export BACKUPDATA_TAGS="${BACKUPDATA_TAGS:-env=prod,db=app_db}"
+export BACKUPDATA_KEEP_LATEST="${BACKUPDATA_KEEP_LATEST:-14}"
 
 # ── Stage 1: create the dump ──────────────────────────
 # Replace the body with the command from your database tutorial.
 make_dump() {
   export PGPASSWORD="${DB_PASSWORD:?set DB_PASSWORD}"
   pg_dump --host=127.0.0.1 --port=5432 --username=postgres \
-    --format=custom --file="${BD_DUMP_DIR}/app.dump" app_db
+    --format=custom --file="${BACKUPDATA_DUMP_DIR}/app.dump" app_db
 }
 
 echo "[$(date -u +%FT%TZ)] creating dump…"
@@ -376,7 +378,7 @@ Pick the tab for your database and use **only** that definition — `backup.sh` 
 make_dump() {
   export PGPASSWORD="$DB_PASSWORD"
   pg_dump --host=127.0.0.1 --port=5432 --username=postgres \
-    --format=custom --file="${BD_DUMP_DIR}/app.dump" app_db
+    --format=custom --file="${BACKUPDATA_DUMP_DIR}/app.dump" app_db
 }
 ```
 
@@ -387,7 +389,7 @@ make_dump() {
 make_dump() {
   mysqldump --host=127.0.0.1 --port=3306 --user=root --password="$DB_PASSWORD" \
     --single-transaction --quick --routines --triggers \
-    app_db > "${BD_DUMP_DIR}/app.sql"
+    app_db > "${BACKUPDATA_DUMP_DIR}/app.sql"
 }
 ```
 
@@ -396,7 +398,7 @@ make_dump() {
 
 ```bash
 make_dump() {
-  sqlite3 /path/to/app.db ".backup '${BD_DUMP_DIR}/app.sqlite'"
+  sqlite3 /path/to/app.db ".backup '${BACKUPDATA_DUMP_DIR}/app.sqlite'"
 }
 ```
 
@@ -405,7 +407,7 @@ make_dump() {
 
 ```bash
 make_dump() {
-  mongodump --uri="$MONGO_URI" --archive="${BD_DUMP_DIR}/app.archive" --gzip
+  mongodump --uri="$MONGO_URI" --archive="${BACKUPDATA_DUMP_DIR}/app.archive" --gzip
 }
 ```
 
@@ -414,7 +416,7 @@ make_dump() {
 
 ```bash
 make_dump() {
-  aws dynamodb scan --table-name app_table --output json > "${BD_DUMP_DIR}/app_table.json"
+  aws dynamodb scan --table-name app_table --output json > "${BACKUPDATA_DUMP_DIR}/app_table.json"
 }
 ```
 
@@ -423,7 +425,7 @@ make_dump() {
 
 ```bash
 make_dump() {
-  aws s3 sync s3://your-bucket "${BD_DUMP_DIR}/your-bucket" --delete
+  aws s3 sync s3://your-bucket "${BACKUPDATA_DUMP_DIR}/your-bucket" --delete
 }
 ```
 
@@ -437,11 +439,11 @@ make_dump() {
 Store secrets in a file the scheduler sources, so they aren't committed or visible in `ps`. Create `/etc/backupdata-backup.env` (mode `600`):
 
 ```bash
-BD_API_KEY=lh_xxxxxxxxxxxxxxxxxxxxxxxx
-BD_WORKSPACE_ID=550e8400-e29b-41d4-a716-446655440000
+BACKUPDATA_API_KEY=lh_xxxxxxxxxxxxxxxxxxxxxxxx
+BACKUPDATA_WORKSPACE_ID=550e8400-e29b-41d4-a716-446655440000
 DB_PASSWORD=your_db_password
-BD_TAGS=env=prod,db=app_db
-BD_KEEP_LATEST=14
+BACKUPDATA_TAGS=env=prod,db=app_db
+BACKUPDATA_KEEP_LATEST=14
 ```
 
 Add a crontab entry to run nightly at 02:30 and log output:
@@ -524,7 +526,7 @@ So a daily job on a slowly-changing database uploads only the delta, while every
 
 A few you may run into the first time you wire this up:
 
-- **`413 Storage limit exceeded`** — the workspace is at its storage limit. Lower `BD_KEEP_LATEST` so retention prunes more aggressively, or upgrade the workspace.
+- **`413 Storage limit exceeded`** — the workspace is at its storage limit. Lower `BACKUPDATA_KEEP_LATEST` so retention prunes more aggressively, or upgrade the workspace.
 - **`command 'go' not found`** in the timer/cron run — build the static binary and call it by absolute path.
 
 Full list with fixes: **[Troubleshooting](/how-to/troubleshooting)**.
@@ -535,6 +537,6 @@ Full list with fixes: **[Troubleshooting](/how-to/troubleshooting)**.
 2. ✅ Keep secrets in a `600`-mode env file, never in the script or repo.
 3. ✅ Use a dedicated API key per job with only `backup:write`, `backup:read`, `snapshots:read`.
 4. ✅ Give the key a hard expiry and rotate it (see [API Keys](/how-to/api-keys-for-backup-jobs#rotation-tips)).
-5. ✅ Set `BD_KEEP_LATEST` to bound storage against your workspace limit.
+5. ✅ Set `BACKUPDATA_KEEP_LATEST` to bound storage against your workspace limit.
 6. ✅ Alert on a non-zero exit code from `backup.sh` (the script uses `set -e`).
 7. ✅ Run a periodic recovery drill — an untested backup is not a backup.

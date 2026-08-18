@@ -23,8 +23,8 @@ You need a BackupData.io account, a workspace, and an **API key** before you can
 3. Export the credentials so the upload step can read them:
 
    ```bash
-   export BD_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
-   export BD_WORKSPACE_ID="your-workspace-uuid"
+   export BACKUPDATA_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
+   export BACKUPDATA_WORKSPACE_ID="your-workspace-uuid"
    ```
 
 > Already have a key? Continue to the sync step below.
@@ -81,7 +81,7 @@ aws s3 sync ./db-dumps/your-bucket s3://your-restore-bucket
 
 ## 5. Upload to BackupData.io
 
-Your mirror is now in `./db-dumps`. Construct the SDK client with the API key from step 1 and upload the directory as a snapshot. This reads `BD_API_KEY` and `BD_WORKSPACE_ID` from the environment (exported in step 1):
+Your mirror is now in `./db-dumps`. Construct the SDK client with the API key from step 1 and upload the directory as a snapshot. This reads `BACKUPDATA_API_KEY` and `BACKUPDATA_WORKSPACE_ID` from the environment (exported in step 1):
 
 <Tabs groupId="baas-sdk">
 <TabItem value="go" label="Go SDK" default>
@@ -100,8 +100,8 @@ import (
 func main() {
 	client, err := sdkclient.NewBackupClient(sdkclient.BackupClientOptions{
 		APIURL:      "https://api.backupdata.io", // API host, not the portal
-		APIKey:      os.Getenv("BD_API_KEY"),
-		WorkspaceID: os.Getenv("BD_WORKSPACE_ID"),
+		APIKey:      os.Getenv("BACKUPDATA_API_KEY"),
+		WorkspaceID: os.Getenv("BACKUPDATA_WORKSPACE_ID"),
 	})
 	if err != nil {
 		log.Fatalf("client init: %v", err)
@@ -130,8 +130,8 @@ go run .
 import { BackupClient } from "@backupdata/js-sdk";
 
 const client = new BackupClient({
-  apiKey: process.env.BD_API_KEY,
-  workspaceId: process.env.BD_WORKSPACE_ID,
+  apiKey: process.env.BACKUPDATA_API_KEY,
+  workspaceId: process.env.BACKUPDATA_WORKSPACE_ID,
 });
 
 const snapshot = await client.backup(["./db-dumps"], {

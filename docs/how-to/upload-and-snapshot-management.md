@@ -31,8 +31,9 @@ import { BackupClient, pruneCount, generateKeyfile } from "@backupdata/js-sdk";
 
 ```bash
 npm install -g @backupdata/js-sdk
-baas auth login --api-key
-baas workspace use <workspaceId>
+export BACKUPDATA_API_KEY="lh_..."          # from Portal → API Keys
+export BACKUPDATA_WORKSPACE_ID="<id>"       # from Portal → Workspaces
+# or per-command: baas backup --api-key lh_... --workspace <id> ./db-dumps
 ```
 
 </TabItem>
@@ -196,8 +197,8 @@ for (const s of resp.snapshots) {
 <TabItem value="cli" label="CLI">
 
 ```bash
-baas snapshot list --limit 20
-baas snapshot list --all --tag env=prod
+baas snapshots --limit 20
+baas snapshots --limit 20 --workspace <id> --api-key lh_...  # no --all/--tag filter; use SDK pagination
 ```
 
 </TabItem>
@@ -231,7 +232,7 @@ console.log(
 <TabItem value="cli" label="CLI">
 
 ```bash
-baas snapshot get snapshot-id
+baas snapshot snapshot-id
 ```
 
 </TabItem>
@@ -301,13 +302,13 @@ console.log(`pruned ${pruneCount(result)} snapshot(s)`);
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-```bash
-# Step 1: preview candidates without deleting them.
-baas snapshot prune --keep-latest 14 --before 2026-06-23 --dry-run
+:::info Not available in CLI (v0.1.5)
+Retention pruning is **SDK only**.
 
-# Step 2: delete after verifying the preview.
-baas snapshot prune --keep-latest 14 --before 2026-06-23 --yes
-```
+- **Go:** `client.PruneSnapshots(sdktypes.PruneRequest{KeepLatest: &14, Before: "2026-06-23T00:00:00Z", DryRun: true})`
+- **JS:** `client.pruneSnapshots({keepLatest: 14, before: "2026-06-23T00:00:00Z", dryRun: true})` → `pruneCount()`
+- Portal shows snapshots but does not prune — use the SDK.
+:::
 
 </TabItem>
 </Tabs>
@@ -337,7 +338,7 @@ await client.deleteSnapshot("snapshot-id");
 <TabItem value="cli" label="CLI">
 
 ```bash
-baas snapshot delete snapshot-id
+baas delete snapshot-id
 ```
 
 </TabItem>
@@ -449,14 +450,14 @@ With encryption enabled, data is encrypted **on your machine** (AES-GCM) before 
 import "github.com/Backup-Data-io/go-sdk/encrypt"
 
 // Create a keyfile once.
-_, err := encrypt.GenerateKeyfile("/secure/bd.keyfile", os.Getenv("BD_KEYFILE_PASSPHRASE"), nil)
+_, err := encrypt.GenerateKeyfile("/secure/bd.keyfile", os.Getenv("BACKUPDATA_PASSPHRASE"), nil)
 if err != nil {
 	log.Fatal(err)
 }
 
 enc := &sdktypes.EncryptionOptions{
 	KeyfilePath: "/secure/bd.keyfile",
-	Passphrase:  os.Getenv("BD_KEYFILE_PASSPHRASE"),
+	Passphrase:  os.Getenv("BACKUPDATA_PASSPHRASE"),
 }
 
 // Backup with encryption.
@@ -478,11 +479,11 @@ err = client.Restore("snapshot-id", target, &sdktypes.RestoreOptions{
 import { generateKeyfile } from "@backupdata/js-sdk";
 
 // Create a keyfile once.
-generateKeyfile("/secure/bd.keyfile", process.env.BD_KEYFILE_PASSPHRASE);
+generateKeyfile("/secure/bd.keyfile", process.env.BACKUPDATA_PASSPHRASE);
 
 const enc = {
   keyfilePath: "/secure/bd.keyfile",
-  passphrase: process.env.BD_KEYFILE_PASSPHRASE,
+  passphrase: process.env.BACKUPDATA_PASSPHRASE,
 };
 
 // Backup with encryption.
@@ -503,7 +504,7 @@ await client.restore("snapshot-id", target, {
 Passphrases are never supplied as a command-line value. Generate a keyfile, then use an interactive prompt, `--passphrase-env`, or `--passphrase-file`:
 
 ```bash
-baas key generate /secure/bd.keyfile
+baas keygen /secure/bd.keyfile
 baas backup ./db-dumps --description nightly-encrypted --keyfile /secure/bd.keyfile
 baas restore snapshot-id ./restore-check --keyfile /secure/bd.keyfile
 ```

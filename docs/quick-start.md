@@ -58,20 +58,17 @@ Copy the raw `lh_…` key (or click **Download .txt**) before closing the dialog
 npm install -g @backupdata/js-sdk
 ```
 
-Log in with the key from step 2 and select your workspace:
+Authenticate per command — the CLI is stateless (no `auth login` / `workspace use` in v0.1.5):
 
 ```bash
-baas auth login --api-key      # paste the lh_… key when prompted
-baas workspace use <workspaceId>
-baas auth whoami               # confirms identity and active workspace
+export BACKUPDATA_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"   # from step 2
+export BACKUPDATA_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"  # from step 1
+baas snapshots --limit 5
+baas backup ./db-dumps --api-key $BACKUPDATA_API_KEY --workspace $BACKUPDATA_WORKSPACE_ID
+# or inline per-command: baas snapshots --api-key lh_... --workspace <id> --limit 5
 ```
 
-For cron or CI, skip the interactive login and set the environment directly:
-
-```bash
-export BAAS_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
-export BAAS_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
-```
+`baas auth login` / `baas auth whoami` / `baas workspace use` do not exist — the CLI has only `backup` / `restore` / `snapshots` / `snapshot` / `delete` / `sources` / `usage` / `keygen` / `workspaces`.
 
 </TabItem>
 <TabItem value="go" label="Go SDK">
@@ -83,8 +80,8 @@ go get github.com/Backup-Data-io/go-sdk@latest
 ```
 
 ```bash
-export BD_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
-export BD_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
+export BACKUPDATA_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
+export BACKUPDATA_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
 ```
 
 </TabItem>
@@ -97,8 +94,8 @@ npm install @backupdata/js-sdk
 ```
 
 ```bash
-export BD_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
-export BD_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
+export BACKUPDATA_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
+export BACKUPDATA_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
 ```
 
 </TabItem>
@@ -161,8 +158,8 @@ import (
 func main() {
 	client, err := sdkclient.NewBackupClient(sdkclient.BackupClientOptions{
 		APIURL:      "https://api.backupdata.io", // API host, not the portal
-		APIKey:      os.Getenv("BD_API_KEY"),
-		WorkspaceID: os.Getenv("BD_WORKSPACE_ID"),
+		APIKey:      os.Getenv("BACKUPDATA_API_KEY"),
+		WorkspaceID: os.Getenv("BACKUPDATA_WORKSPACE_ID"),
 	})
 	if err != nil {
 		log.Fatalf("client init: %v", err)
@@ -193,8 +190,8 @@ go run .
 import { BackupClient } from "@backupdata/js-sdk";
 
 const client = new BackupClient({
-  apiKey: process.env.BD_API_KEY,
-  workspaceId: process.env.BD_WORKSPACE_ID,
+  apiKey: process.env.BACKUPDATA_API_KEY,
+  workspaceId: process.env.BACKUPDATA_WORKSPACE_ID,
 });
 
 const snapshot = await client.backup(["./db-dumps"], {
@@ -226,7 +223,7 @@ The upload runs the full pipeline in one call — scan, chunk, deduplicate, comp
 <TabItem value="cli" label="CLI" default>
 
 ```bash
-baas snapshot list --limit 5
+baas snapshots --limit 5
 ```
 
 </TabItem>

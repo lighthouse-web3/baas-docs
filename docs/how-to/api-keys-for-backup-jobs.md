@@ -39,11 +39,14 @@ import {
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-Install the CLI, then authenticate with a portal-created key or another supported login method:
+Install the CLI — it is stateless and takes the portal key per command (no stored profile):
 
 ```bash
 npm install -g @backupdata/js-sdk
-baas auth login --api-key
+export BACKUPDATA_API_KEY="lh_..."          # from Portal → API Keys
+export BACKUPDATA_WORKSPACE_ID="<id>"       # from Portal → Workspaces
+baas snapshots --limit 5                    # authenticates from env
+# or per-command: baas snapshots --api-key lh_... --workspace <id> --limit 5
 ```
 
 </TabItem>
@@ -123,14 +126,12 @@ console.log(`NEW API KEY (store now): ${plain} (prefix=${prefix} id=${id})`);
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-```bash
-baas apikey create \
-  --name nightly-postgres-backup \
-  --scope backup:write \
-  --scope backup:read \
-  --scope snapshots:read \
-  --expires 2026-10-21T00:00:00Z
-```
+:::info Not available in CLI (v0.1.5)
+API-key creation is **SDK + Portal only**. The `baas` CLI authenticates with an existing `lh_…` key (`--api-key` or `BACKUPDATA_API_KEY`) — it does not mint keys.
+
+- **Recommended:** [Portal → API Keys → Create New API Key](/how-to/web-portal-quickstart#3-generate-a-scoped-api-key) — copy the `lh_…` value once.
+- **Programmatic:** `client.createAPIKey()` (JS) / `client.CreateAPIKey()` (Go) — see the JS / Go tabs.
+:::
 
 </TabItem>
 </Tabs>
@@ -139,7 +140,7 @@ baas apikey create \
 `CreateAPIKey` / `createAPIKey` returns an `APIKeyCreateResponse`. The plaintext key is `keyResp.Plaintext()` (Go) / `apiKeyPlaintext(keyResp)` (JS); the **prefix, id, scopes, and expiry live on the nested `keyResp.APIKey` / `keyResp.apiKey`** — e.g. `keyResp.apiKey.keyPrefix`, not `keyResp.keyPrefix`.
 :::
 
-> Store the plaintext key in a secrets manager or environment variable (e.g. `BD_API_KEY`). After this call you can only ever see its prefix again.
+> Store the plaintext key in a secrets manager or environment variable (e.g. `BACKUPDATA_API_KEY`). After this call you can only ever see its prefix again.
 
 ## List API keys
 
@@ -171,9 +172,12 @@ for (const k of keys) {
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-```bash
-baas apikey list
-```
+:::info Not available in CLI (v0.1.5)
+Listing API keys is **SDK + Portal only**.
+
+- **Portal:** **API Keys** → table (prefix, name, status).
+- **Programmatic:** `client.listAPIKeys()` (JS) / `client.ListAPIKeys()` (Go) — see JS / Go tabs.
+:::
 
 </TabItem>
 </Tabs>
@@ -200,9 +204,12 @@ await client.deleteAPIKey("add-your-api-key-id");
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-```bash
-baas apikey revoke add-your-api-key-id --yes
-```
+:::info Not available in CLI (v0.1.5)
+Revoking API keys is **SDK + Portal only**.
+
+- **Portal:** **API Keys** → ⋯ → **Revoke**.
+- **Programmatic:** `client.deleteAPIKey(id)` (JS) / `client.DeleteAPIKey(id)` (Go) — see JS / Go tabs.
+:::
 
 </TabItem>
 </Tabs>

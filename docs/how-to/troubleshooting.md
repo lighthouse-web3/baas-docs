@@ -31,7 +31,7 @@ The workspace has reached its storage limit. Check current usage against the lim
 
 **Fixes:**
 
-1. **Prune** old snapshots to free space and retry — see [prune](/how-to/upload-and-snapshot-management#prune-snapshots-retention) (or set `BD_KEEP_LATEST` in the [automated job](/tutorials/automated-backup)).
+1. **Prune** old snapshots to free space and retry — see [prune](/how-to/upload-and-snapshot-management#prune-snapshots-retention) (or set `BACKUPDATA_KEEP_LATEST` in the [automated job](/tutorials/automated-backup)).
 2. **Upgrade** the workspace for more capacity — see [pricing](https://backupdata.io/#pricing).
 
 If you receive this error while the portal shows the workspace well under its limit, that is not expected — contact [mail@backupdata.io](mailto:mail@backupdata.io) with your workspace ID rather than working around it, so we can correct the accounting.
@@ -77,12 +77,12 @@ const id = keyResp.apiKey.apiKeyId;
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-The CLI prints the raw key only when it creates it; use the returned ID for later revocation:
+:::info Not available in CLI (v0.1.5)
+API-key management is **SDK + Portal only** — the `baas` CLI (v0.1.5) authenticates with an existing `lh_…` key, it does not mint/list/revoke keys.
 
-```bash
-baas apikey create --name backup-runner --scope backup:write --scope backup:read
-baas apikey list
-```
+- **Recommended:** [Portal → API Keys](/how-to/web-portal-quickstart#3-generate-a-scoped-api-key)
+- **Programmatic:** `client.createAPIKey()` / `client.listAPIKeys()` / `client.deleteAPIKey()` — see JS / Go tabs.
+:::
 
 </TabItem>
 </Tabs>

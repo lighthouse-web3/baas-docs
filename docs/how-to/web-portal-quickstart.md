@@ -58,8 +58,8 @@ This is the credential the SDK uses. **It is shown in full only once.**
 Store the raw key in a secrets manager / environment variable:
 
 ```bash
-export BD_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
-export BD_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
+export BACKUPDATA_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
+export BACKUPDATA_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
 ```
 
 For more on scoping keys for automation, see [API Keys](/how-to/api-keys-for-backup-jobs).

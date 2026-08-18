@@ -36,22 +36,16 @@ npm install -g @backupdata/js-sdk
 baas --help
 ```
 
-The CLI supports three login methods and stores the selected credential in its active profile:
+The `baas` CLI is **stateless** (v0.1.5) — it does not store a profile and has no `auth login` / `auth whoami`. Pass the portal key per invocation:
 
 ```bash
-# Browser (default): opens the device-code approval flow in your browser.
-baas auth login
-
-# Email and password: prompts for the password, or read it from an environment variable.
-baas auth login --email you@example.com
-baas auth login --email you@example.com --password-env BAAS_PASSWORD
-
-# API key: create an `lh_…` key in the BackupData.io portal, then paste it when prompted.
-baas auth login --api-key
-
-# Confirm the active identity and workspace.
-baas auth whoami
+export BACKUPDATA_API_KEY="lh_..."          # from Portal → API Keys
+export BACKUPDATA_WORKSPACE_ID="<id>"       # from Portal → Workspaces
+baas snapshots --limit 5
+baas backup ./db-dumps --api-key lh_... --workspace <id>
 ```
+
+`--private-key 0x...` / `BACKUPDATA_PRIVATE_KEY` is accepted as an alternative to `--api-key`.
 
 </TabItem>
 </Tabs>
@@ -78,8 +72,8 @@ import (
 func newClient() *sdkclient.BackupClient {
     c, err := sdkclient.NewBackupClient(sdkclient.BackupClientOptions{
         APIURL:      "https://api.backupdata.io", // API host
-        APIKey:      os.Getenv("BD_API_KEY"),               // lh_… from the portal
-        WorkspaceID: os.Getenv("BD_WORKSPACE_ID"),          // workspace UUID
+        APIKey:      os.Getenv("BACKUPDATA_API_KEY"),               // lh_… from the portal
+        WorkspaceID: os.Getenv("BACKUPDATA_WORKSPACE_ID"),          // workspace UUID
     })
     if err != nil {
         log.Fatalf("client init: %v", err)
@@ -96,8 +90,8 @@ import { BackupClient } from "@backupdata/js-sdk";
 
 function newClient() {
   return new BackupClient({
-    apiKey: process.env.BD_API_KEY,          // lh_… from the portal
-    workspaceId: process.env.BD_WORKSPACE_ID, // workspace UUID
+    apiKey: process.env.BACKUPDATA_API_KEY,          // lh_… from the portal
+    workspaceId: process.env.BACKUPDATA_WORKSPACE_ID, // workspace UUID
   });
 }
 ```
@@ -105,17 +99,13 @@ function newClient() {
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-Use a portal-created key interactively once, or set the environment variables directly for cron and CI:
-
 ```bash
-# Interactive: stores the key in the active CLI profile.
-baas auth login --api-key
-baas workspace use <workspaceId>
-
-# Non-interactive: credentials apply only to this process and its children.
-export BAAS_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
-export BAAS_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
-baas auth whoami
+# Every invocation authenticates explicitly (no stored profile).
+export BACKUPDATA_API_KEY="lh_xxxxxxxxxxxxxxxxxxxxxxxx"
+export BACKUPDATA_WORKSPACE_ID="550e8400-e29b-41d4-a716-446655440000"
+baas snapshots --limit 5
+baas backup ./db-dumps --workspace $BACKUPDATA_WORKSPACE_ID --api-key $BACKUPDATA_API_KEY
+# or inline: baas snapshots --api-key lh_... --workspace <id> --limit 5
 ```
 
 </TabItem>

@@ -38,12 +38,14 @@ import {
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-Install and authenticate once; the CLI stores the selected workspace in its active profile:
-
 ```bash
 npm install -g @backupdata/js-sdk
-baas auth login --api-key
+export BACKUPDATA_API_KEY="lh_..."          # Portal → API Keys
+export BACKUPDATA_WORKSPACE_ID="<id>"       # Portal → Workspaces
+baas workspaces                             # the only workspace command in v0.1.5 (lists)
 ```
+
+Member operations are **SDK + Portal only** — the CLI has no `workspace member` subcommands.
 
 </TabItem>
 </Tabs>
@@ -126,14 +128,16 @@ console.log(`Using workspace: ${workspaceId}`);
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-Workspaces are created in the [BackupData.io portal](/how-to/web-portal-quickstart#2-workspaces-your-free-5-gb-workspace). List, select, inspect, or rename one from the CLI:
+:::info Not available in CLI (v0.1.5)
+Workspaces are created in the [Portal](/how-to/web-portal-quickstart#2-workspaces-your-free-5-gb-workspace). The CLI only lists:
 
 ```bash
-baas workspace list
-baas workspace use <workspaceId>
-baas workspace get
-baas workspace update <workspaceId> --name prod-db-backups
+baas workspaces                                   # list
+baas workspaces --api-key lh_... --workspace <id> # auth is per-command
 ```
+
+Create / get / update / `use` and member management are SDK + Portal only (see JS / Go tabs).
+:::
 
 </TabItem>
 </Tabs>
@@ -170,9 +174,9 @@ for (const m of members) {
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-```bash
-baas workspace member list
-```
+:::info Not available in CLI (v0.1.5)
+Member listing is **SDK + Portal only** — `client.listWorkspaceMembers()` (JS) / `client.ListWorkspaceMembers()` (Go) or Portal → Workspace → Members.
+:::
 
 </TabItem>
 </Tabs>
@@ -206,9 +210,9 @@ const member = await client.addWorkspaceMember(workspaceId, {
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-```bash
-baas workspace member add --email dba@example.com --role member
-```
+:::info Not available in CLI (v0.1.5)
+Invites are **SDK + Portal only** — `client.addWorkspaceMember()` / `client.AddWorkspaceMember()` or Portal → Workspace → Members → Invite.
+:::
 
 </TabItem>
 </Tabs>
@@ -243,11 +247,9 @@ const updated = await client.updateWorkspaceMember(workspaceId, userId, {
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-```bash
-baas workspace member update <userId> \
-  --role admin \
-  --add-scope snapshots:read
-```
+:::info Not available in CLI (v0.1.5)
+Role/scope updates are **SDK + Portal only** — `client.updateWorkspaceMember()` / `client.UpdateWorkspaceMember()`.
+:::
 
 </TabItem>
 </Tabs>
@@ -274,9 +276,9 @@ await client.removeWorkspaceMember(workspaceId, userId);
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-```bash
-baas workspace member remove <userId> --yes
-```
+:::info Not available in CLI (v0.1.5)
+Removal is **SDK + Portal only** — `client.removeWorkspaceMember()` / `client.RemoveWorkspaceMember()` or Portal → Members → Remove.
+:::
 
 </TabItem>
 </Tabs>

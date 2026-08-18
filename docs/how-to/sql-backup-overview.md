@@ -64,12 +64,14 @@ import { BackupClient } from "@backupdata/js-sdk";
 </TabItem>
 <TabItem value="cli" label="CLI">
 
-No import is required. Authenticate once and select a workspace before running backup commands:
+No import is required. The CLI is stateless — pass the portal key per command:
 
 ```bash
-baas auth login --api-key
-baas workspace list
-baas workspace use <workspaceId>
+export BACKUPDATA_API_KEY="lh_..."          # Portal → API Keys
+export BACKUPDATA_WORKSPACE_ID="<id>"       # Portal → Workspaces
+baas snapshots --limit 5                    # verify auth
+baas backup ./db-dumps --api-key $BACKUPDATA_API_KEY --workspace $BACKUPDATA_WORKSPACE_ID
+# `baas workspaces` lists workspaces; `baas auth login` / `baas workspace use` do not exist in v0.1.5
 ```
 
 </TabItem>
